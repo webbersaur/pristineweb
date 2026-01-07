@@ -1,0 +1,521 @@
+<!-- MULTI-STEP ESTIMATE FORM -->
+<!-- Add this to a Divi Code Module or Text Module with HTML enabled -->
+
+<style>
+/* Form Container */
+.pe-estimate-form {
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+
+/* Progress Bar */
+.pe-progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.pe-progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+.pe-progress-step {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.pe-progress-step.active {
+  background: #1a2e4a;
+  color: #fff;
+}
+
+.pe-progress-step.completed {
+  background: #c41e3a;
+  color: #fff;
+}
+
+/* Form Slides */
+.pe-form-slides {
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+}
+
+.pe-slide {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.4s ease;
+  padding: 10px 0;
+}
+
+.pe-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+}
+
+.pe-slide.exit-left {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* Form Elements */
+.pe-form-title {
+  color: #1a2e4a;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.pe-form-subtitle {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.pe-input-group {
+  margin-bottom: 20px;
+}
+
+.pe-input-group label {
+  display: block;
+  color: #1a2e4a;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.pe-input-group input,
+.pe-input-group select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.pe-input-group input:focus,
+.pe-input-group select:focus {
+  outline: none;
+  border-color: #1a2e4a;
+}
+
+.pe-input-group input::placeholder {
+  color: #999;
+}
+
+/* Service Options */
+.pe-service-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pe-service-option {
+  padding: 16px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.pe-service-option:hover {
+  border-color: #1a2e4a;
+}
+
+.pe-service-option.selected {
+  border-color: #c41e3a;
+  background: #fef2f4;
+}
+
+.pe-service-option input {
+  display: none;
+}
+
+.pe-service-option span {
+  color: #1a2e4a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Budget Options */
+.pe-budget-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pe-budget-option {
+  padding: 14px 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.pe-budget-option:hover {
+  border-color: #1a2e4a;
+}
+
+.pe-budget-option.selected {
+  border-color: #c41e3a;
+  background: #fef2f4;
+}
+
+.pe-budget-option input {
+  display: none;
+}
+
+.pe-budget-option span {
+  color: #1a2e4a;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* Buttons */
+.pe-form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.pe-btn {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pe-btn-back {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.pe-btn-back:hover {
+  background: #d0d0d0;
+}
+
+.pe-btn-next,
+.pe-btn-submit {
+  background: #c41e3a;
+  color: #fff;
+}
+
+.pe-btn-next:hover,
+.pe-btn-submit:hover {
+  background: #a31830;
+}
+
+.pe-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success Message */
+.pe-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.pe-success-icon {
+  width: 70px;
+  height: 70px;
+  background: #c41e3a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.pe-success-icon svg {
+  width: 35px;
+  height: 35px;
+  fill: #fff;
+}
+
+.pe-success h3 {
+  color: #1a2e4a;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.pe-success p {
+  color: #666;
+  font-size: 15px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .pe-service-options {
+    grid-template-columns: 1fr;
+  }
+
+  .pe-form-buttons {
+    flex-direction: column;
+  }
+
+  .pe-btn-back {
+    order: 2;
+  }
+}
+</style>
+
+<div class="pe-estimate-form">
+  <!-- Progress Bar -->
+  <div class="pe-progress-bar">
+    <div class="pe-progress-step active" data-step="1">1</div>
+    <div class="pe-progress-step" data-step="2">2</div>
+    <div class="pe-progress-step" data-step="3">3</div>
+    <div class="pe-progress-step" data-step="4">4</div>
+  </div>
+
+  <form id="peEstimateForm">
+    <div class="pe-form-slides">
+
+      <!-- Step 1: Name -->
+      <div class="pe-slide active" data-slide="1">
+        <h3 class="pe-form-title">Let's Get Started</h3>
+        <p class="pe-form-subtitle">What's your name?</p>
+        <div class="pe-input-group">
+          <label for="pe-name">Full Name *</label>
+          <input type="text" id="pe-name" name="name" placeholder="Enter your full name" required>
+        </div>
+        <div class="pe-form-buttons">
+          <button type="button" class="pe-btn pe-btn-next" onclick="peNextSlide(1)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Contact -->
+      <div class="pe-slide" data-slide="2">
+        <h3 class="pe-form-title">How Can We Reach You?</h3>
+        <p class="pe-form-subtitle">Provide your preferred contact method</p>
+        <div class="pe-input-group">
+          <label for="pe-email">Email Address</label>
+          <input type="email" id="pe-email" name="email" placeholder="your@email.com">
+        </div>
+        <div class="pe-input-group">
+          <label for="pe-phone">Phone Number</label>
+          <input type="tel" id="pe-phone" name="phone" placeholder="(203) 555-1234">
+        </div>
+        <div class="pe-form-buttons">
+          <button type="button" class="pe-btn pe-btn-back" onclick="pePrevSlide(2)">Back</button>
+          <button type="button" class="pe-btn pe-btn-next" onclick="peNextSlide(2)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Service -->
+      <div class="pe-slide" data-slide="3">
+        <h3 class="pe-form-title">What Service Do You Need?</h3>
+        <p class="pe-form-subtitle">Select all that apply</p>
+        <div class="pe-service-options">
+          <label class="pe-service-option">
+            <input type="checkbox" name="service" value="Roofing">
+            <span>Roofing</span>
+          </label>
+          <label class="pe-service-option">
+            <input type="checkbox" name="service" value="Siding">
+            <span>Siding</span>
+          </label>
+          <label class="pe-service-option">
+            <input type="checkbox" name="service" value="Windows & Doors">
+            <span>Windows & Doors</span>
+          </label>
+          <label class="pe-service-option">
+            <input type="checkbox" name="service" value="Decks">
+            <span>Decks</span>
+          </label>
+          <label class="pe-service-option">
+            <input type="checkbox" name="service" value="Gutters">
+            <span>Gutters</span>
+          </label>
+          <label class="pe-service-option">
+            <input type="checkbox" name="service" value="Other">
+            <span>Other</span>
+          </label>
+        </div>
+        <div class="pe-form-buttons">
+          <button type="button" class="pe-btn pe-btn-back" onclick="pePrevSlide(3)">Back</button>
+          <button type="button" class="pe-btn pe-btn-next" onclick="peNextSlide(3)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Budget -->
+      <div class="pe-slide" data-slide="4">
+        <h3 class="pe-form-title">What's Your Budget Range?</h3>
+        <p class="pe-form-subtitle">This helps us prepare the best options for you</p>
+        <div class="pe-budget-options">
+          <label class="pe-budget-option">
+            <input type="radio" name="budget" value="Under $5,000">
+            <span>Under $5,000</span>
+          </label>
+          <label class="pe-budget-option">
+            <input type="radio" name="budget" value="$5,000 - $10,000">
+            <span>$5,000 - $10,000</span>
+          </label>
+          <label class="pe-budget-option">
+            <input type="radio" name="budget" value="$10,000 - $25,000">
+            <span>$10,000 - $25,000</span>
+          </label>
+          <label class="pe-budget-option">
+            <input type="radio" name="budget" value="$25,000+">
+            <span>$25,000+</span>
+          </label>
+          <label class="pe-budget-option">
+            <input type="radio" name="budget" value="Not sure yet">
+            <span>Not sure yet</span>
+          </label>
+        </div>
+        <div class="pe-form-buttons">
+          <button type="button" class="pe-btn pe-btn-back" onclick="pePrevSlide(4)">Back</button>
+          <button type="submit" class="pe-btn pe-btn-submit">Get My Estimate</button>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="pe-slide" data-slide="5">
+        <div class="pe-success">
+          <div class="pe-success-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <h3>Thank You!</h3>
+          <p>We've received your request and will contact you within 24 hours with your free estimate.</p>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<script>
+// Service option selection
+document.querySelectorAll('.pe-service-option').forEach(option => {
+  option.addEventListener('click', function() {
+    this.classList.toggle('selected');
+  });
+});
+
+// Budget option selection
+document.querySelectorAll('.pe-budget-option').forEach(option => {
+  option.addEventListener('click', function() {
+    document.querySelectorAll('.pe-budget-option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// Navigation functions
+function peNextSlide(currentStep) {
+  // Validation
+  if (currentStep === 1) {
+    const name = document.getElementById('pe-name').value.trim();
+    if (!name) {
+      alert('Please enter your name');
+      return;
+    }
+  }
+
+  if (currentStep === 2) {
+    const email = document.getElementById('pe-email').value.trim();
+    const phone = document.getElementById('pe-phone').value.trim();
+    if (!email && !phone) {
+      alert('Please provide an email or phone number');
+      return;
+    }
+  }
+
+  goToSlide(currentStep + 1);
+}
+
+function pePrevSlide(currentStep) {
+  goToSlide(currentStep - 1);
+}
+
+function goToSlide(slideNum) {
+  // Update progress bar
+  document.querySelectorAll('.pe-progress-step').forEach(step => {
+    const stepNum = parseInt(step.dataset.step);
+    step.classList.remove('active', 'completed');
+    if (stepNum < slideNum) {
+      step.classList.add('completed');
+    } else if (stepNum === slideNum) {
+      step.classList.add('active');
+    }
+  });
+
+  // Animate slides
+  document.querySelectorAll('.pe-slide').forEach(slide => {
+    const slideNumAttr = parseInt(slide.dataset.slide);
+    slide.classList.remove('active', 'exit-left');
+
+    if (slideNumAttr === slideNum) {
+      slide.classList.add('active');
+    } else if (slideNumAttr < slideNum) {
+      slide.classList.add('exit-left');
+    }
+  });
+}
+
+// Form submission
+document.getElementById('peEstimateForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Collect form data
+  const formData = {
+    name: document.getElementById('pe-name').value,
+    email: document.getElementById('pe-email').value,
+    phone: document.getElementById('pe-phone').value,
+    services: Array.from(document.querySelectorAll('input[name="service"]:checked')).map(cb => cb.value),
+    budget: document.querySelector('input[name="budget"]:checked')?.value || 'Not specified'
+  };
+
+  console.log('Form submitted:', formData);
+
+  // Here you would typically send to your server or email service
+  // For WPForms or Contact Form 7 integration, you'd submit to their endpoint
+
+  // Show success message
+  goToSlide(5);
+
+  // Mark all steps as completed
+  document.querySelectorAll('.pe-progress-step').forEach(step => {
+    step.classList.remove('active');
+    step.classList.add('completed');
+  });
+});
+</script>
