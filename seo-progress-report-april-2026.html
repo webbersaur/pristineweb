@@ -428,13 +428,13 @@
             var el = document.getElementById('expiration-countdown');
             var banner = document.getElementById('expiration-banner');
             if (days > 1) {
-                el.textContent = days + ' days until report expiration (May 1, 2026)';
+                el.textContent = days + ' days until website goes down (May 1, 2026)';
             } else if (days === 1) {
-                el.textContent = '1 day until report expiration (May 1, 2026)';
+                el.textContent = '1 day until website goes down (May 1, 2026)';
             } else if (days === 0) {
-                el.textContent = 'Report expires today (May 1, 2026)';
+                el.textContent = 'Website goes down today (May 1, 2026)';
             } else {
-                el.textContent = 'Report expired ' + Math.abs(days) + ' day' + (Math.abs(days) === 1 ? '' : 's') + ' ago';
+                el.textContent = 'Website down for ' + Math.abs(days) + ' day' + (Math.abs(days) === 1 ? '' : 's');
                 banner.style.background = '#000';
             }
         })();
