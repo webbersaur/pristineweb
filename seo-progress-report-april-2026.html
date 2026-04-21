@@ -265,6 +265,10 @@
         <strong>Date:</strong> April 2026
     </div>
 
+    <div id="expiration-banner" style="background: #af3731; color: #fff; padding: 16px 22px; border-radius: 6px; margin-bottom: 25px; font-weight: 700; font-size: 17px; text-align: center; letter-spacing: 0.3px;">
+        <span id="expiration-countdown">&nbsp;</span>
+    </div>
+
     <div class="summary-box">
         <p style="margin-bottom: 0;">In March, we delivered a report outlining the SEO foundation built for your site &mdash; 40+ pages of content, schema markup, blog strategy, and technical SEO. It's been about six weeks since then, and we wanted to share where things stand. <strong>The short version: the foundation is working. But the window to build on it won't stay open forever.</strong></p>
     </div>
@@ -414,5 +418,26 @@
         <p><strong>Prepared by Webbersaur.us</strong> &mdash; April 2026</p>
         <p>Questions? Contact us anytime.</p>
     </div>
+
+    <script>
+        (function () {
+            var deadline = new Date(2026, 4, 1);
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var days = Math.ceil((deadline - today) / 86400000);
+            var el = document.getElementById('expiration-countdown');
+            var banner = document.getElementById('expiration-banner');
+            if (days > 1) {
+                el.textContent = days + ' days until report expiration (May 1, 2026)';
+            } else if (days === 1) {
+                el.textContent = '1 day until report expiration (May 1, 2026)';
+            } else if (days === 0) {
+                el.textContent = 'Report expires today (May 1, 2026)';
+            } else {
+                el.textContent = 'Report expired ' + Math.abs(days) + ' day' + (Math.abs(days) === 1 ? '' : 's') + ' ago';
+                banner.style.background = '#000';
+            }
+        })();
+    </script>
 </body>
 </html>
