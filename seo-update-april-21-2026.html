@@ -56,10 +56,6 @@
         <strong>Date:</strong> April 21, 2026
     </div>
 
-    <div id="expiration-banner" style="background: #af3731; color: #fff; padding: 14px 20px; border-radius: 6px; margin-bottom: 22px; font-weight: 700; font-size: 16px; text-align: center;">
-        <span id="expiration-countdown">&nbsp;</span>
-    </div>
-
     <div class="summary-box">
         <p style="margin-bottom: 0;">Quick note before the May 1 hosting deadline. Since the April report, I pulled fresh numbers straight from <strong>Google Search Console</strong> &mdash; the source Google itself publishes &mdash; and there are a couple things you should see before deciding what to do about the site.</p>
     </div>
@@ -179,26 +175,5 @@
         <p>Search data: Google Search Console (sc-domain:pristineexteriorsct.com), March 22 &ndash; April 18, 2026.</p>
         <p><a href="seo-progress-report-april-2026.html" style="color: #af3731;">Read the full early-April report &rarr;</a></p>
     </div>
-
-    <script>
-        (function () {
-            var deadline = new Date(2026, 4, 1);
-            var today = new Date();
-            today.setHours(0, 0, 0, 0);
-            var days = Math.ceil((deadline - today) / 86400000);
-            var el = document.getElementById('expiration-countdown');
-            var banner = document.getElementById('expiration-banner');
-            if (days > 1) {
-                el.textContent = days + ' days until website goes down (May 1, 2026)';
-            } else if (days === 1) {
-                el.textContent = '1 day until website goes down (May 1, 2026)';
-            } else if (days === 0) {
-                el.textContent = 'Website goes down today (May 1, 2026)';
-            } else {
-                el.textContent = 'Website down for ' + Math.abs(days) + ' day' + (Math.abs(days) === 1 ? '' : 's');
-                banner.style.background = '#000';
-            }
-        })();
-    </script>
 </body>
 </html>
